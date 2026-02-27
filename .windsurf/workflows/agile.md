@@ -55,6 +55,10 @@ This is an iterative process where you implement the work based on the specs, an
 
 After work as been accepted:
 - Ensure there are tests for the spec(s) being worked on and that all tests are passing.
+    - Unit Tests (required; mocked dependencies)
+    - API Tests
+        - Component Tests (optional; mocked/docker container dependencies)
+        - Integration Tests (optional; real dependencies)
 - Update the spec status to "completed"
 - Create a `<YYYYMMDD>-<HHMM>.changelog.md` document in the `changelog` directory to document the work done: summary of changes, any important notes such as dependencies, product intent implications, etc.
 - Create a git commit for the work done.
