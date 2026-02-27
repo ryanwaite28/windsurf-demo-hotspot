@@ -1,0 +1,25 @@
+#### Tickets
+
+There should be a `tickets` directory at the root of the codebase - the tickets are incoming work to be done - this is optional. A ticket is can be 1 of 2 things:
+- A feature request
+- A bug report
+
+Tickets should be in the format `<ticket-number>.ticket.md` and should be sorted in ascending order by ticket number. 
+
+Each ticket should have the following format:
+```markdown
+---
+date opened: <date-opened>
+ticket: <ticket-number>
+type: <ticket-type>
+spec scope: <spec>
+
+title: <ticket-title>
+description: <ticket-description>
+
+acceptance criteria:
+- <acceptance-criteria>
+---
+```
+
+By default, specs take priority over tickets, so if a ticket involves functionality that is not in a spec/functional requirement, it should not be implemented.

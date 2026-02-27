@@ -1,0 +1,102 @@
+version: "3.9"
+
+services:
+
+  # --- Infrastructure Dependencies ---
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: hotspot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: hotspot
+      POSTGRES_USER: hotspot
+      POSTGRES_PASSWORD: hotspot
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hotspot -d hotspot"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: hotspot-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  localstack:
+    image: localstack/localstack:3
+    container_name: hotspot-localstack
+    restart: unless-stopped
+    environment:
+      SERVICES: s3,sqs,ses,sns
+      DEFAULT_REGION: us-east-1
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    ports:
+      - "4566:4566"
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - ./localstack/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: hotspot-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8025"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # --- Application ---
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hotspot-backend
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_USERNAME: hotspot
+      DB_PASSWORD: hotspot
+      JWT_SECRET: docker-dev-secret-key-change-in-production-must-be-at-least-256-bits-long
+      CORS_ALLOWED_ORIGINS: http://localhost:3000,http://localhost:4200
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      localstack:
+        condition: service_healthy
+      mailhog:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
+  localstack_data:
