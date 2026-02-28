@@ -47,7 +47,7 @@ There should be a `tech-stack` directory at the root of the codebase. This is wh
 
 ### 4. Implementation Of Work
 
-After understanding the project, requirements, tech stack, and evaluation of current state, implement the work based on the specs. The workflow requires a <spec> and <domain> (mobile, front-end, back-end) to work on - if not given, stop and notify user that no spec/domain is given and ask if all specs should be implemented/reconciled. A given <domain> is required and should not be guessed/inferred.
+After understanding the project, requirements, tech stack, and evaluation of current state, implement the work based on the specs. The workflow requires a `<spec>` and `<domain>` (mobile, front-end, back-end) to work on - if not given, stop and notify user that no spec/domain is given and ask if all specs should be implemented/reconciled. A given `<domain>` is required and should not be guessed/inferred.
 
 This is an iterative process where you implement the work based on the specs, and then evaluate the current state again to see if the work has been implemented. Ask for input from the user if changes are accepted. 
 
