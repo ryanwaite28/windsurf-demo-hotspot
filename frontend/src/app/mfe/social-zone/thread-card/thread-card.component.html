@@ -1,0 +1,95 @@
+<div class="thread-card">
+  @if (thread.threadType === 'REPOST') {
+    <span class="thread-type-badge badge-repost">Repost</span>
+  }
+  @if (thread.threadType === 'QUOTE') {
+    <span class="thread-type-badge badge-quote">Quote</span>
+  }
+
+  <div class="thread-header">
+    <div class="thread-avatar">
+      @if (thread.authorProfilePictureUrl) {
+        <img [src]="thread.authorProfilePictureUrl" [alt]="thread.authorDisplayName" />
+      } @else {
+        <div class="thread-avatar-placeholder">{{ thread.authorDisplayName.charAt(0).toUpperCase() }}</div>
+      }
+    </div>
+    <div class="thread-meta">
+      <div class="thread-author">
+        <a [routerLink]="['/profile', thread.authorUsername]" class="author-name">{{ thread.authorDisplayName }}</a>
+        <span class="author-username">&#64;{{ thread.authorUsername }}</span>
+        <span class="thread-time">· {{ timeAgo }}</span>
+        @if (thread.isPinned) {
+          <span class="thread-time">📌 Pinned</span>
+        }
+      </div>
+
+      <div class="thread-content">
+        <p>{{ thread.content }}</p>
+      </div>
+
+      @if (thread.media && thread.media.length > 0) {
+        <div class="thread-media">
+          @for (m of thread.media; track m.id) {
+            @if (m.mediaType === 'IMAGE') {
+              <img [src]="m.url" alt="Thread media" />
+            }
+            @if (m.mediaType === 'VIDEO') {
+              <video [src]="m.url" controls></video>
+            }
+          }
+        </div>
+      }
+
+      @if (thread.poll) {
+        <div class="thread-poll">
+          <div class="poll-question">{{ thread.poll.question }}</div>
+          @for (opt of thread.poll.options; track opt.id) {
+            <div class="poll-option" [class.voted]="opt.voted">
+              <span>{{ opt.optionText }}</span>
+              <span>{{ opt.votesCount }}</span>
+            </div>
+          }
+          <div class="poll-votes">{{ thread.poll.totalVotes }} votes</div>
+        </div>
+      }
+
+      @if (thread.threadType === 'QUOTE' && thread.parentThread) {
+        <div class="quoted-thread">
+          <div class="quoted-author">{{ thread.parentThread.authorDisplayName }} &#64;{{ thread.parentThread.authorUsername }}</div>
+          <p>{{ thread.parentThread.content }}</p>
+        </div>
+      }
+
+      @if (showActions && authService.isLoggedIn) {
+        <div class="thread-actions">
+          <button class="action-btn" [class.liked]="liked" (click)="onLike()">
+            {{ liked ? '❤️' : '🤍' }}
+            <span class="action-count">{{ thread.likesCount }}</span>
+          </button>
+          <a [routerLink]="['/zones/social/thread', thread.id]" class="action-btn">
+            💬 <span class="action-count">{{ thread.commentsCount }}</span>
+          </a>
+          <button class="action-btn" (click)="onRepost()">
+            🔁 <span class="action-count">{{ thread.repostsCount }}</span>
+          </button>
+          <button class="action-btn" [class.active]="saved" (click)="onSave()">
+            {{ saved ? '🔖' : '📑' }}
+          </button>
+          <button class="action-btn" (click)="toggleMenu()">⋯</button>
+        </div>
+
+        @if (showMenu) {
+          <div class="thread-menu">
+            @if (isAuthor) {
+              <button class="menu-btn" (click)="onTogglePin()">
+                {{ thread.isPinned ? 'Unpin' : 'Pin' }}
+              </button>
+              <button class="menu-btn danger" (click)="onDelete()">Delete</button>
+            }
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

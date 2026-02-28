@@ -6,7 +6,7 @@ description: Iterative development
 
 ## Overview
 
-This workflow is based on the Agile methodology. It is an iterative development process that allows for continuous implementation and feedback. It is intended to be used for incremental changes to the codebase, based on the requirements, tech stack, and ticket  documents. It is not intended to be used for large-scale refactoring or rewrites. It works similar in principle to Kubernetes philophy: constant loop of evaluating current state, desired state, and reconciling.
+This workflow is based on the Agile methodology. It is an iterative development process that allows for continuous implementation and feedback. It is intended to be used for incremental changes to the codebase, based on the project, requirements, and  tech stack documents. It is not intended to be used for large-scale refactoring or rewrites. It works similar in principle to Kubernetes philophy: constant loop of evaluating current state, desired state, and reconciling.
 | Idea | Kubernetes | Agile |
 |---|---|---|
 | current state | cluster state | codebase |
@@ -35,7 +35,9 @@ There should be a `specs` directory at the root of the codebase - the requiremen
 Before doing any implementation, always reconcile the requirements and the specs:
 - If the requirements do not exist, stop and notify user that the requirements are not present and that the workflow cannot proceed - there's no way to to know what to build without knowing the requirements.
 - If the specs do not exist, create them based on the requirements.
-- If the specs exist, reconcile the requirements and the specs. 
+- If the specs exist, reconcile the requirements and the specs.
+- If there are new requirements, create new specs based on the requirements.
+- If there are updates to the requirements, evaluate/compare the specs and update if needed to reconcile the requirements and the specs.
 
 
 
@@ -60,6 +62,15 @@ After work as been accepted:
 - Update the spec status to "completed"
 - Create a `<YYYYMMDD>-<HHMM>.changelog.md` document in the `changelog` directory to document the work done: summary of changes, any important notes such as dependencies, product intent implications, etc.
 - Create a git commit for the work done.
+
+
+## Rules
+
+### Spring Boot
+- Entity classes should have `Entity` suffix.
+- Repository interfaces should have `Repository` suffix.
+- Service classes should have `Service` suffix.
+- Controller classes should have `Controller` suffix.
 
 
 ## Personas

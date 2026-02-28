@@ -1,0 +1,18 @@
+@use '../_shared-social' as *;
+
+.char-count {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  align-self: center;
+  margin-right: 0.75rem;
+
+  &.over {
+    color: var(--color-danger);
+  }
+}
+
+.compose-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

@@ -1,0 +1,22 @@
+<div class="compose-card">
+  @if (errorMessage) {
+    <div class="error-banner">{{ errorMessage }}</div>
+  }
+
+  <form [formGroup]="composeForm" (ngSubmit)="onPost()" class="compose-form">
+    <textarea
+      formControlName="content"
+      class="compose-textarea"
+      placeholder="What's happening?"
+      rows="3"
+    ></textarea>
+    <div class="compose-actions">
+      <span class="char-count" [class.over]="(composeForm.get('content')?.value?.length || 0) > 500">
+        {{ composeForm.get('content')?.value?.length || 0 }}/500
+      </span>
+      <button type="submit" class="btn btn-primary" [disabled]="posting || composeForm.invalid">
+        {{ posting ? 'Posting...' : 'Post' }}
+      </button>
+    </div>
+  </form>
+</div>

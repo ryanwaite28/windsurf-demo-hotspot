@@ -1,0 +1,28 @@
+<div class="social-container">
+  <h1 class="page-title">Feed</h1>
+
+  <app-compose-thread (threadCreated)="onThreadCreated($event)"></app-compose-thread>
+
+  @if (loading) {
+    <div class="loading-state">Loading feed...</div>
+  } @else if (error) {
+    <div class="error-state">{{ error }}</div>
+  } @else if (threads.length === 0) {
+    <div class="empty-state">
+      <p>Your feed is empty.</p>
+      <p>Follow some users to see their threads here!</p>
+    </div>
+  } @else {
+    @for (thread of threads; track thread.id) {
+      <app-thread-card [thread]="thread" (deleted)="onThreadDeleted($event)"></app-thread-card>
+    }
+
+    @if (hasMore) {
+      <div class="load-more">
+        <button (click)="loadMore()" [disabled]="loadingMore">
+          {{ loadingMore ? 'Loading...' : 'Load More' }}
+        </button>
+      </div>
+    }
+  }
+</div>

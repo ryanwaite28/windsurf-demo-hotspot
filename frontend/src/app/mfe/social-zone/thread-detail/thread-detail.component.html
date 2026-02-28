@@ -1,0 +1,79 @@
+<div class="social-container">
+  @if (loading) {
+    <div class="loading-state">Loading thread...</div>
+  } @else if (error) {
+    <div class="error-state">{{ error }}</div>
+  } @else if (thread) {
+    <app-thread-card [thread]="thread" (deleted)="onThreadDeleted()"></app-thread-card>
+
+    <div class="comments-section">
+      <h2 class="comments-title">Comments ({{ thread.commentsCount }})</h2>
+
+      @if (authService.isLoggedIn) {
+        @if (commentError) {
+          <div class="error-banner">{{ commentError }}</div>
+        }
+
+        <form [formGroup]="commentForm" (ngSubmit)="onPostComment()" class="compose-form" style="margin-bottom: 1rem;">
+          <textarea
+            formControlName="content"
+            class="compose-textarea"
+            placeholder="Write a comment..."
+            rows="2"
+          ></textarea>
+          <div class="compose-actions">
+            <button type="submit" class="btn btn-primary" [disabled]="postingComment || commentForm.invalid">
+              {{ postingComment ? 'Posting...' : 'Comment' }}
+            </button>
+          </div>
+        </form>
+      }
+
+      @if (comments.length === 0) {
+        <div class="empty-state">No comments yet. Be the first to comment!</div>
+      } @else {
+        @for (comment of comments; track comment.id) {
+          <div class="comment-card">
+            @if (editingCommentId === comment.id) {
+              <form [formGroup]="editCommentForm" (ngSubmit)="onSaveEditComment(comment.id)">
+                <textarea
+                  formControlName="content"
+                  class="compose-textarea"
+                  rows="2"
+                ></textarea>
+                <div class="comment-actions" style="margin-top: 0.5rem;">
+                  <button type="submit" class="menu-btn" [disabled]="editCommentForm.invalid">Save</button>
+                  <button type="button" class="menu-btn" (click)="cancelEditComment()">Cancel</button>
+                </div>
+              </form>
+            } @else {
+              <div class="comment-header">
+                <span class="comment-author">{{ comment.authorDisplayName }}</span>
+                <span class="comment-username">&#64;{{ comment.authorUsername }}</span>
+                <span class="comment-time">· {{ comment.createdAt | date:'short' }}</span>
+              </div>
+              <p class="comment-content">{{ comment.content }}</p>
+
+              @if (authService.isLoggedIn && isCommentAuthor(comment)) {
+                <div class="comment-actions">
+                  @if (canEditComment(comment)) {
+                    <button class="menu-btn" (click)="startEditComment(comment)">Edit</button>
+                  }
+                  <button class="menu-btn danger" (click)="onDeleteComment(comment.id)">Delete</button>
+                </div>
+              }
+            }
+          </div>
+        }
+
+        @if (hasMoreComments) {
+          <div class="load-more">
+            <button (click)="loadMoreComments()" [disabled]="loadingMoreComments">
+              {{ loadingMoreComments ? 'Loading...' : 'Load More Comments' }}
+            </button>
+          </div>
+        }
+      }
+    </div>
+  }
+</div>

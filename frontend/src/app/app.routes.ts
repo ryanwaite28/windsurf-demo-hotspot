@@ -17,6 +17,11 @@ export const routes: Routes = [
       import('./mfe/user-settings/user-settings.routes').then((m) => m.USER_SETTINGS_ROUTES),
   },
   {
+    path: 'zones/social',
+    loadChildren: () =>
+      import('./mfe/social-zone/social-zone.routes').then((m) => m.SOCIAL_ZONE_ROUTES),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
