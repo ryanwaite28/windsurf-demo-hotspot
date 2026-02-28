@@ -1,0 +1,59 @@
+<div class="profile-container">
+  @if (loading) {
+    <div class="loading-state">
+      <p>Loading profile...</p>
+    </div>
+  } @else if (error) {
+    <div class="error-state">
+      <p>{{ error }}</p>
+    </div>
+  } @else if (profile) {
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="avatar">
+          @if (profile.profilePictureUrl) {
+            <img [src]="profile.profilePictureUrl" [alt]="profile.displayName" />
+          } @else {
+            <div class="avatar-placeholder">{{ profile.displayName.charAt(0).toUpperCase() }}</div>
+          }
+        </div>
+
+        <div class="profile-info">
+          <h1 class="display-name">{{ profile.displayName }}</h1>
+          <p class="username">&#64;{{ profile.username }}</p>
+
+          @if (profile.bio) {
+            <p class="bio">{{ profile.bio }}</p>
+          }
+
+          @if (profile.location) {
+            <p class="location">📍 {{ profile.location }}</p>
+          }
+        </div>
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat">
+          <span class="stat-count">{{ profile.followersCount }}</span>
+          <span class="stat-label">Followers</span>
+        </div>
+        <div class="stat">
+          <span class="stat-count">{{ profile.followingCount }}</span>
+          <span class="stat-label">Following</span>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        @if (isOwnProfile) {
+          <button (click)="onEditProfile()" class="btn btn-secondary">Edit Profile</button>
+        } @else if (authService.isLoggedIn) {
+          @if (isFollowing) {
+            <button (click)="onUnfollow()" class="btn btn-secondary">Unfollow</button>
+          } @else {
+            <button (click)="onFollow()" class="btn btn-primary">Follow</button>
+          }
+        }
+      </div>
+    </div>
+  }
+</div>

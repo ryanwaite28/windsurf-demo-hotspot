@@ -1,0 +1,102 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h1 class="auth-title">Create your account</h1>
+    <p class="auth-subtitle">Join HotSpot and start connecting.</p>
+
+    @if (errorMessage) {
+      <div class="error-banner">{{ errorMessage }}</div>
+    }
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-input"
+          placeholder="you@example.com"
+        />
+        @if (signupForm.get('email')?.touched && signupForm.get('email')?.errors?.['required']) {
+          <span class="form-error">Email is required</span>
+        }
+        @if (signupForm.get('email')?.touched && signupForm.get('email')?.errors?.['email']) {
+          <span class="form-error">Enter a valid email</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="displayName" class="form-label">Display Name</label>
+        <input
+          id="displayName"
+          type="text"
+          formControlName="displayName"
+          class="form-input"
+          placeholder="Your Name"
+        />
+        @if (signupForm.get('displayName')?.touched && signupForm.get('displayName')?.errors?.['required']) {
+          <span class="form-error">Display name is required</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input
+          id="username"
+          type="text"
+          formControlName="username"
+          class="form-input"
+          placeholder="cooluser123"
+        />
+        @if (signupForm.get('username')?.touched && signupForm.get('username')?.errors?.['required']) {
+          <span class="form-error">Username is required</span>
+        }
+        @if (signupForm.get('username')?.touched && signupForm.get('username')?.errors?.['minlength']) {
+          <span class="form-error">Username must be at least 3 characters</span>
+        }
+        @if (signupForm.get('username')?.touched && signupForm.get('username')?.errors?.['pattern']) {
+          <span class="form-error">Only letters, numbers, and underscores allowed</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="form-input"
+          placeholder="••••••••"
+        />
+        @if (signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['required']) {
+          <span class="form-error">Password is required</span>
+        }
+        @if (signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']) {
+          <span class="form-error">Password must be at least 8 characters</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          class="form-input"
+          placeholder="••••••••"
+        />
+        @if (signupForm.get('confirmPassword')?.touched && signupForm.errors?.['passwordMismatch']) {
+          <span class="form-error">Passwords do not match</span>
+        }
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full" [disabled]="loading">
+        {{ loading ? 'Creating account...' : 'Sign Up' }}
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      Already have an account? <a routerLink="/login" class="auth-link">Log in</a>
+    </p>
+  </div>
+</div>

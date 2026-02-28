@@ -1,0 +1,136 @@
+.profile-container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 4rem 0;
+  color: var(--color-text-secondary);
+}
+
+.error-state {
+  color: var(--color-danger);
+}
+
+.profile-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  padding: 2rem;
+}
+
+.profile-header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.avatar {
+  flex-shrink: 0;
+
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.avatar-placeholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.display-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.username {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.bio {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.location {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.profile-stats {
+  display: flex;
+  gap: 2rem;
+  padding: 1.25rem 0;
+  margin-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.stat {
+  display: flex;
+  gap: 0.375rem;
+  align-items: baseline;
+}
+
+.stat-count {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.stat-label {
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+}
+
+.profile-actions {
+  padding-top: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+  }
+}
+
+.btn-secondary {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+
+  &:hover {
+    background-color: var(--color-bg);
+  }
+}

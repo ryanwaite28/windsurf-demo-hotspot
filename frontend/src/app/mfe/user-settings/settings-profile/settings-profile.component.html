@@ -1,0 +1,51 @@
+<div class="settings-container">
+  <div class="settings-sidebar">
+    <h2 class="sidebar-title">Settings</h2>
+    <nav class="sidebar-nav">
+      <a routerLink="/settings" class="sidebar-link active">Profile</a>
+      <a routerLink="/settings/privacy" class="sidebar-link">Privacy</a>
+      <a routerLink="/settings/security" class="sidebar-link">Security</a>
+    </nav>
+  </div>
+
+  <div class="settings-content">
+    <h1 class="settings-heading">Edit Profile</h1>
+
+    @if (loading) {
+      <p class="loading-text">Loading...</p>
+    } @else {
+      @if (successMessage) {
+        <div class="success-banner">{{ successMessage }}</div>
+      }
+      @if (errorMessage) {
+        <div class="error-banner">{{ errorMessage }}</div>
+      }
+
+      <form [formGroup]="profileForm" (ngSubmit)="onSave()" class="settings-form">
+        <div class="form-group">
+          <label for="displayName" class="form-label">Display Name</label>
+          <input id="displayName" type="text" formControlName="displayName" class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input id="username" type="text" formControlName="username" class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label for="bio" class="form-label">Bio</label>
+          <textarea id="bio" formControlName="bio" class="form-input form-textarea" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="location" class="form-label">Location</label>
+          <input id="location" type="text" formControlName="location" class="form-input" />
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="saving">
+          {{ saving ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </form>
+    }
+  </div>
+</div>

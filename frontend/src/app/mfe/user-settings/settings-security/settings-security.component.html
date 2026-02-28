@@ -1,0 +1,42 @@
+<div class="settings-container">
+  <div class="settings-sidebar">
+    <h2 class="sidebar-title">Settings</h2>
+    <nav class="sidebar-nav">
+      <a routerLink="/settings" class="sidebar-link">Profile</a>
+      <a routerLink="/settings/privacy" class="sidebar-link">Privacy</a>
+      <a routerLink="/settings/security" class="sidebar-link active">Security</a>
+    </nav>
+  </div>
+
+  <div class="settings-content">
+    <h1 class="settings-heading">Security Settings</h1>
+
+    @if (loading) {
+      <p class="loading-text">Loading...</p>
+    } @else {
+      @if (successMessage) {
+        <div class="success-banner">{{ successMessage }}</div>
+      }
+      @if (errorMessage) {
+        <div class="error-banner">{{ errorMessage }}</div>
+      }
+
+      <form [formGroup]="securityForm" (ngSubmit)="onSave()" class="settings-form">
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <h3>Two-Factor Authentication</h3>
+            <p>Add an extra layer of security to your account</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" formControlName="twoFactorEnabled" />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="saving">
+          {{ saving ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </form>
+    }
+  </div>
+</div>
