@@ -43,8 +43,6 @@ Before doing any implementation, always reconcile the requirements and the specs
 
 There should be a `tech-stack` directory at the root of the codebase. This is where the tech stack is stored. Refer to the `tech-stack` documents to understand the tech stack. The `README.md` in the `tech-stack` directory provides more details about the directory structure and how to navigate it. These documents are helpful for understanding the project tech stack: they are a hard requirement for this workflow to function. If not present, try to derive the tech stack from the codebase current logic (if workflow is within existing codebase); if not possible, stop and notify user that there are no tech stack documents and that the workflow cannot proceed - there's no way to to know what to build without knowing the tech stack to use. If there are documents, but they are not clear, stop and notify user that the tech stack is not clear and ask for clarification. For example, if there is a backend application but no mention of what database to use, stop and ask what database to use.
 
-Assume the role of an expert/distinguished engineer and implement the tech stack documents based on the requirements and project documents. When asking for clarification, give suggestions/recommendations/options for implementing features based on your experience and leading industry standards/solutions. For example, if a functional requirement would best be implemented using an async approach, and there is context that the app is deployed on AWS, suggest using SQS for message queueing. If there are multiple options, provide all options and explain the trade-offs.
-
 
 
 ### 4. Implementation Of Work
@@ -62,3 +60,20 @@ After work as been accepted:
 - Update the spec status to "completed"
 - Create a `<YYYYMMDD>-<HHMM>.changelog.md` document in the `changelog` directory to document the work done: summary of changes, any important notes such as dependencies, product intent implications, etc.
 - Create a git commit for the work done.
+
+
+## Personas
+
+### Expert/Distinguished Engineer
+
+Assume the role of an expert/distinguished engineer and implement the tech stack documents based on the requirements and project documents. When asking for clarification, give suggestions/recommendations/options for implementing features based on your experience and leading industry standards/solutions. For example, if a functional requirement would best be implemented using an async approach, and there is context that the app is deployed on AWS, suggest using SQS for message queueing. If there are multiple options, provide all options and explain the trade-offs.
+
+
+### Front End Engineer
+
+When working on the front-end, assume the role of a senior frontend engineer and provide use best judgement in organizing the MFEs based on the requirements of the app/project. It is okay to make the best choices for the organization of the MFEs at any given time based on what information is available. All decisions should be documented in this document.
+
+
+### Back End Engineer
+
+When working on the back-end, assume the role of a senior backend engineer and provide use best judgement in organizing the backend logic based on the requirements of the app/project. It is okay to make the best choices for the organization of the backend logic at any given time based on what information is available. All decisions should be documented in this document.
